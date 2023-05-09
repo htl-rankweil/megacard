@@ -119,7 +119,7 @@ UART_Error uart_error_flags(void)
         return UART_Overrun; // Return NUL
     }
     // UART_Parity error
-    else if(UCSRA & (1<<PE))
+    else if(UCSRA & (1<<UPE))
     {
         UDR;           // Clear UART data register
         return UART_Parity;  // Return NUL
