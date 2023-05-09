@@ -66,7 +66,7 @@ jobs:
            ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/uart/main.c
            ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/uart/uart.c
            cd ..
-           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_uart.elf ./UART/uart.o ./UART/uart.o
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_uart.elf ./UART/main.o ./UART/uart.o
            ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex main_uart.elf main_uart.hex
            ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex main_uart.elf main_uart.eep  
     - name: upload-library-firmware
