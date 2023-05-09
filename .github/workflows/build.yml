@@ -1,0 +1,40 @@
+name: build-firmware
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: install-build-tools
+      run: |
+           wget https://ww1.microchip.com/downloads/aemDocuments/documents/DEV/ProductDocuments/SoftwareTools/avr8-gnu-toolchain-3.7.0.1796-linux.any.x86_64.tar.gz
+           tar -xf *.tar.gz
+    - name: install-dfp-package
+      run: |
+           wget http://packs.download.atmel.com/Atmel.ATmega_DFP.2.0.401.atpack
+           unzip *.atpack -d ./library/DFP
+    - name: build-adc-firmware
+      run: |
+           mkdir ADC
+           cd ADC
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/adc/main.c
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/adc/adc.c
+           cd ..
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_adc.elf ./ADC/main.o ./ADC/adc.o
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex main_adc.elf main_adc.hex
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex main_adc.elf main_adc.eep
+    - name: upload-library-firmware
+      uses: actions/upload-artifact@v3
+      with:
+        name: library-firmware
+        path: |
+          main_adc.hex
+          main_adc.eep
+        retention-days: 5
