@@ -1,4 +1,4 @@
-[![Version: 1.0 Release](https://img.shields.io/badge/Version-1.0%20Release-green.svg)](https://github.com/htl-rankweil/megacard) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Version: 1.0 Release](https://img.shields.io/badge/Version-1.0%20Release-green.svg)](https://github.com/htl-rankweil/megacard) ![Build](https://github.com/htl-rankweil/megacard/actions/workflows/build.yml/badge.svg?branch=main) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # Megacard
 
@@ -18,6 +18,7 @@ Download Avr Dude [`avrdude-v?.?-windows-x64.zip`](https://www.microchip.com/mpl
 Copy avr-dude to a preferred path (e.g. `C:\Tools\avrdude`) and setup external tools in Microchip Studio 7.
 
 ![External Tools in Microchip Studio](./images/microchip-studio-external-tools.png)
+
 ![Setup AVR Dude in Microchip Studio](./images/microchip-studio-avr-dude.png)
 
 ``` bash

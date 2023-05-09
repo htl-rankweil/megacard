@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: install-build-tools
@@ -30,6 +29,46 @@ jobs:
            ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_adc.elf ./ADC/main.o ./ADC/adc.o
            ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex main_adc.elf main_adc.hex
            ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex main_adc.elf main_adc.eep
+    - name: build-lcd-firmware
+      run: |
+           mkdir LCD
+           cd LCD
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/lcd/main.c
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/lcd/lcd.c
+           cd ..
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_lcd.elf ./LCD/main.o ./LCD/lcd.o
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex main_lcd.elf main_lcd.hex
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex main_lcd.elf main_lcd.eep
+    - name: build-spi-firmware
+      run: |
+           mkdir SPI
+           cd SPI
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/spi/main.c
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/spi/spi.c
+           cd ..
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_spi.elf ./SPI/main.o ./SPI/spi.o
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex main_spi.elf main_spi.hex
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex main_spi.elf main_spi.eep
+    - name: build-twi-firmware
+      run: |
+           mkdir TWI
+           cd TWI
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/twi/main.c
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/twi/twi.c
+           cd ..
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_twi.elf ./TWI/main.o ./TWI/twi.o
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex main_twi.elf main_twi.hex
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex main_twi.elf main_twi.eep  
+    - name: build-uart-firmware
+      run: |
+           mkdir UART
+           cd UART
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/uart/main.c
+           ../avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -x c -O1 -mmcu=atmega16a -std=gnu99 -c ../library/uart/uart.c
+           cd ..
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-gcc -g -mmcu=atmega16a -o main_uart.elf ./UART/uart.o ./UART/uart.o
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .text -j .data -O ihex main_uart.elf main_uart.hex
+           ./avr8-gnu-toolchain-linux_x86_64/bin/avr-objcopy -j .eeprom --change-section-lma .eeprom=0 -O ihex main_uart.elf main_uart.eep  
     - name: upload-library-firmware
       uses: actions/upload-artifact@v3
       with:
@@ -37,4 +76,12 @@ jobs:
         path: |
           main_adc.hex
           main_adc.eep
+          main_lcd.hex
+          main_lcd.eep
+          main_spi.hex
+          main_spi.eep
+          main_twi.hex
+          main_twi.eep
+          main_uart.hex
+          main_uart.eep
         retention-days: 5
