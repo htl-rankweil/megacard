@@ -48,7 +48,7 @@ Copy HIDBootflash to a preferred path (e.g. `C:\Tools\downloader`) and setup `Ex
 
 ``` bash
 # Title
-Megacard
+HID Bootflash
 # Command (Private)
 C:\Tools\Downloader\HIDBootFlash.exe
 # Command (School)
