@@ -40,7 +40,7 @@ P:\lehrer\GAR\Software\AvrDude\avrdude.exe
 
 ## Setup HIDBootflash with Microchip Studio (Megacard v4)
 
-Download [`HIDBootflash`](https://github.com/avrdudes/avrdude/releases) and [Microchip Studio 7](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio#Downloads)
+Download [`HIDBootflash`](http://vusb.wikidot.com/local--files/project:hidbootflash/HIDBootFlash.zip) and [Microchip Studio 7](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio#Downloads)
 
 Copy HIDBootflash to a preferred path (e.g. `C:\Tools\downloader`) and setup `External Tools` in Microchip Studio 7.
 
